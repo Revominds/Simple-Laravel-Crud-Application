@@ -33,9 +33,20 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.4"
+          php-version: "8.4" # Required for Symfony 8
           extensions: mbstring, pdo, pdo_mysql, openssl, tokenizer, xml, ctype, json
           coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build front-end assets
+        run: npm run build
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -48,10 +59,8 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_crudapp/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=laravel/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=secret/' .env
-          # Disable Vite during tests
-          echo "VITE_ENABLED=false" >> .env
 
-      - name: Install Dependencies
+      - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Generate App Key
@@ -65,4 +74,3 @@ jobs:
 
       - name: Run Tests
         run: php artisan test
-       
