@@ -14,7 +14,7 @@
     <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
     @if (!app()->runningUnitTests())
     @vite(['resources/js/app.js', 'resources/css/app.css'])
-@endif
+    @endif
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
