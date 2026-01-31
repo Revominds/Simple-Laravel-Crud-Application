@@ -48,6 +48,8 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_crudapp/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=laravel/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=secret/' .env
+          # Disable Vite during tests
+          echo "VITE_ENABLED=false" >> .env
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
